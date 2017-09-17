@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>First React App</title>
+	<link type="text/css" rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+</head>
+<body>
+	<div id="content"></div>
+	<script type="text/babel">
+
+	var CONTACTS = [
+		{
+			id: 1,
+			name: 'Albina Popova',
+			phone: '+74991430023',
+			img: 'https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-1/p160x160/14595812_1092657544121862_186655767081042043_n.jpg?oh=22fc13033eb4d1c24bebd1e6db6c6b93&oe=5A472CCA'
+		},		{
+			id: 2,
+			name: 'Наталья Нечепуренко',
+			phone: '+74991480174',
+			img: 'https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-1/p160x160/16427710_1240730739295316_5179690683919305612_n.jpg?oh=83f68a4105275c442d98cfa79dcf6f53&oe=5A4ED3ED'
+		},		{
+			id: 3,
+			name: 'Мария Бреус',
+			phone: '+74991480176',
+			img: 'https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-1/c0.0.160.160/p160x160/20708033_604349683287153_2754992536812653459_n.jpg?oh=43a8aedb97ac51709991e7a505e45808&oe=5A1779A6'
+		},		{
+			id: 4,
+			name: 'Анастасия Лысяна',
+			phone: '+74991480177',
+			img: 'https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-1/c0.0.240.240/p240x240/21077664_1811938502384027_5306787353823655631_n.jpg?oh=8ff7fad2598012db5720d1d395320f61&oe=5A463A57'
+		}
+	];
+
+		var Contact = React.createClass({
+			render: function() {
+				return (
+					<li className='contact'>
+						<img className='contact__img' src={this.props.img} alt={this.props.name} />
+						<div className="contact__info">
+							<div className='contact__info_name'>{this.props.name}</div>
+							<div className='contact__info_phone'>{this.props.phone}</div>
+						</div>
+					</li>
+				);
+			}
+		});
+
+		var ContactList = React.createClass({
+			getInitialState: function() {
+				return {
+					displayedContacts: CONTACTS
+				};
+			},
+
+			handleSearch: function(event) {
+					var searchQuery = event.target.value.toLowerCase(); // rewngjnwernjwenjgn
+					var displayedContacts = CONTACTS.filter(function(el) {
+						var searchValue = el.name.toLowerCase(); // name = Alice
+						return searchValue.indexOf(searchQuery) !== -1; // найти соответсвтие
+					});
+
+				this.setState({
+					displayedContacts: displayedContacts
+				});
+			},
+
+			render: function() {
+				return (
+					<div className='contacts'>
+						<input className='contacts__input' type="text" onChange={this.handleSearch} />
+						<ul className='contact-list'>
+							{
+								this.state.displayedContacts.map(function(el) {
+									return <Contact
+										key={el.key}
+										name={el.name}
+										phone={el.phone}
+										img={el.img} />;
+								})
+							}
+						</ul>
+					</div>
+				);
+			}
+		});
+		
+		ReactDOM.render(
+			<ContactList />,
+			document.getElementById('content')
+		);
+	</script>
+</body>
+</html>
